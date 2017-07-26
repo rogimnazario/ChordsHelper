@@ -109,12 +109,14 @@ namespace ChordsHelper
                     Primeiro grau: C
                     Terceiro grau menor: Eb
                     Quinto grau diminuto: Gb
-                    Sétimo grau diminuto: A (ou Bbb)                 
+                    Sétimo grau diminuto: A (ou Bbb)
                  */
+                retorno = escala[0];
+
                 if (acorde.Contains("°") || acorde.Contains("dim"))
-                    retorno += escala[0] + "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]) + "," + BaixaTom(escala[6]);
+                    retorno += "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]) + "," + BaixaTom(escala[6]);
                 else
-                    retorno += escala[0] + "," + escala[2] + "," + escala[4];
+                    retorno += "," + escala[acorde.Contains("4") ? 3 : 2] + "," + escala[4];
             }
 
             //Sétima
