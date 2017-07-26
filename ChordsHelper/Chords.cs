@@ -21,7 +21,10 @@ namespace ChordsHelper
             Escala = GerarEscala(nota);
 
             var result = string.Empty;
-            Escala.ToList().ForEach(e => result += (result != string.Empty ? " " : string.Empty) + e);
+
+            foreach (var item in Escala)
+                result += (result != string.Empty ? " " : string.Empty) + item;
+
             return result;
         }
 
@@ -85,6 +88,11 @@ namespace ChordsHelper
             return retorno;
         }
 
+        /// <summary>
+        /// Retorna as notas de um dado acorde.
+        /// </summary>
+        /// <param name="acorde">Qual o acorde deseja-se obter as notas.</param>
+        /// <returns></returns>
         public string MontarAcorde(string acorde)
         {
             //acorde maior: 1 3 5
@@ -96,15 +104,25 @@ namespace ChordsHelper
 
             if (eAcordeMaior)
             {
+                /*
+                    Exemplo em Dó diminuto:
+                    Primeiro grau: C
+                    Terceiro grau menor: Eb
+                    Quinto grau diminuto: Gb
+                    Sétimo grau diminuto: A (ou Bbb)                 
+                 */
                 if (acorde.Contains("°") || acorde.Contains("dim"))
-                    retorno += escala[0] + "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]);
+                    retorno += escala[0] + "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]) + "," + BaixaTom(escala[6]);
                 else
                     retorno += escala[0] + "," + escala[2] + "," + escala[4];
             }
 
             //Sétima
             if (acorde.Contains("7"))
-                retorno += "," + BaixaSemitom(escala[6]);
+                if (acorde.Contains("7+")) //Sétima maior
+                    retorno += "," + escala[6];
+                else //Sétima menor
+                    retorno += "," + BaixaSemitom(escala[6]);
 
             return retorno;
         }
@@ -126,104 +144,17 @@ namespace ChordsHelper
                 ? Notas[index + 1]            
                 : Notas[0];
         }
+
+        private string BaixaTom(string nota)
+        {
+            return BaixaSemitom(BaixaSemitom(nota));
+        }
+
+        private string AumentaTom(string nota)
+        {
+            return AumentaSemitom(AumentaSemitom(nota));
+        }
     }
 
-    public class Cavaquinho
-    {
-        public string Rezinha { get; set; }
-        public string Si { get; set; }
-        public string Sol { get; set; }
-        public string Rezona { get; set; }
-
-        List<string> Notas = new List<String>() { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
-
-        public Cavaquinho()
-        {
-            Reinicializa();
-        }
-
-        private void Reinicializa()
-        {
-            Rezona = Rezinha = "D";
-            Si = "B";
-            Sol = "G";          
-        }
-
-        private string intToCorda(int intCorda)
-        {
-            switch (intCorda)
-            {
-                case 0:
-                    return "Rezinha";
-                case 1:
-                    return "Sol";
-                case 2:
-                    return "Si";
-                case 3:
-                    return "Rezona";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        public List<string> GirarEscala(string notaInicial)
-        {
-            var index = Notas.IndexOf(notaInicial);
-            var novaEscala = new List<string>();
-            
-            novaEscala.Add(notaInicial);
-
-            for (int i = 1; i < 12; i++)
-            {
-                if (index + 1 <= Notas.Count - 1)
-                    index++;
-                else
-                    index = 0;                
-
-                novaEscala.Add(Notas[index]);
-            }
-
-            return novaEscala;
-        }
-
-        public string ExibeAcorde(string notas)
-        {
-            var arrNotas = notas.Split(',').ToList();
-            
-            Reinicializa();
-            
-            var Cordas = new List<string>() { Rezinha, Sol, Si, Rezona };
-            int index = 0;
-            var retorno = string.Empty;
-            //indo de corda em corda pra montar o acorde.
-
-            //1. rezinha
-            for (int i = 0; i < 4; i++)
-            {
-                //pega a proxima corda
-                var indexCorda = (new Random(DateTime.Now.Millisecond)).Next(0, 4 - i);
-                var proximaCorda = Cordas[indexCorda];
-
-                //exclui pra ela nao ser usada mais d uma vez
-                Cordas.Remove(proximaCorda);
-
-                //gira a escala pra mesma começar pela nota da em questao
-                var Escala = GirarEscala(proximaCorda);
-
-                if (arrNotas.Count > 0)
-                {
-                    while (Escala[index] != arrNotas[0])
-                        index++;
-
-                    arrNotas.Remove(arrNotas[0]);
-
-                    retorno = (!string.IsNullOrEmpty(retorno) ? retorno + "\n" : string.Empty) + string.Format("Corda {0} : {1}", proximaCorda, index);
-                }
-                index = 0;
-            }
-
-            return retorno;
-        }
-        
-    }
+    
 }
