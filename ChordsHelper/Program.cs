@@ -14,10 +14,10 @@ namespace ChordsHelper
 
             while (key.Key != ConsoleKey.End)
             {
-                var chords = new Chords();
-                var cvc = new Cavaquinho();
+                
+                Instrumento cvc = new Cavaquinho();
 
-                Console.WriteLine(cvc.ExibeAcorde(chords.MontarAcorde("C7")));
+                Console.WriteLine(cvc.ExibeAcorde(EscalaHelper.MontarAcorde("C7")));
 
                 key = Console.ReadKey();
                 Console.WriteLine("\n");

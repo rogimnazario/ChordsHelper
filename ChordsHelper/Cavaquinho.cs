@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChordsHelper
 {
-    public class Cavaquinho
+    public class Cavaquinho : Instrumento
     {
         public string Rezinha { get; set; }
         public string Si { get; set; }
         public string Sol { get; set; }
         public string Rezona { get; set; }
-
-        List<string> Notas = new List<String>() { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
         public Cavaquinho()
         {
@@ -44,27 +42,7 @@ namespace ChordsHelper
             }
         }
 
-        public List<string> GirarEscala(string notaInicial)
-        {
-            var index = Notas.IndexOf(notaInicial);
-            var novaEscala = new List<string>();
-
-            novaEscala.Add(notaInicial);
-
-            for (int i = 1; i < 12; i++)
-            {
-                if (index + 1 <= Notas.Count - 1)
-                    index++;
-                else
-                    index = 0;
-
-                novaEscala.Add(Notas[index]);
-            }
-
-            return novaEscala;
-        }
-
-        public string ExibeAcorde(string notas)
+        public override string ExibeAcorde(string notas)
         {
             var arrNotas = notas.Split(',').ToList();
 
@@ -97,6 +75,7 @@ namespace ChordsHelper
 
                     retorno = (!string.IsNullOrEmpty(retorno) ? retorno + "\n" : string.Empty) + string.Format("Corda {0} : {1}", proximaCorda, index);
                 }
+
                 index = 0;
             }
 

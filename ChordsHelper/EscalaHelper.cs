@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace ChordsHelper
 {
-    public class Chords
+    public static class EscalaHelper
     {
-        List<string> Notas = new List<String>() { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+        static List<string> Notas = new List<String>() { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         const int TOM = 2;
         const int SEMITOM = 1;
 
-        private IEnumerable<string> Escala { get; set; }
+        private static IEnumerable<string> Escala { get; set; }
 
-
-
-        public string PrintEscala(string nota)
+        public static string PrintEscala(string nota)
         {
             Escala = GerarEscala(nota);
 
@@ -28,7 +26,7 @@ namespace ChordsHelper
             return result;
         }
 
-        private IEnumerable<string> GerarEscala(string nota, bool somenteNota = true)
+        private static IEnumerable<string> GerarEscala(string nota, bool somenteNota = true)
         {
             Func<bool, int, bool> tomSemitom = (maior, i) =>
             {
@@ -93,7 +91,7 @@ namespace ChordsHelper
         /// </summary>
         /// <param name="acorde">Qual o acorde deseja-se obter as notas.</param>
         /// <returns></returns>
-        public string MontarAcorde(string acorde)
+        public static string MontarAcorde(string acorde)
         {
             //acorde maior: 1 3 5
             var eAcordeMaior = !acorde.Contains('m');
@@ -114,7 +112,7 @@ namespace ChordsHelper
                 retorno = escala[0];
 
                 if (acorde.Contains("°") || acorde.Contains("dim"))
-                    retorno += "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]) + "," + BaixaTom(escala[6]);
+                    retorno += "," + BaixaSemitom(escala[2]) + "," + BaixaSemitom(escala[4]) + "," + escala[5];
                 else
                     retorno += "," + escala[acorde.Contains("4") ? 3 : 2] + "," + escala[4];
             }
@@ -129,7 +127,7 @@ namespace ChordsHelper
             return retorno;
         }
 
-        private string BaixaSemitom(string nota)
+        private static string BaixaSemitom(string nota)
         {
             var index = Notas.IndexOf(nota);
 
@@ -138,7 +136,7 @@ namespace ChordsHelper
                 : Notas[Notas.Count - 1];
         }
 
-        private string AumentaSemitom(string nota)
+        private static string AumentaSemitom(string nota)
         {
             var index = Notas.IndexOf(nota);
 
@@ -147,12 +145,12 @@ namespace ChordsHelper
                 : Notas[0];
         }
 
-        private string BaixaTom(string nota)
+        private static string BaixaTom(string nota)
         {
             return BaixaSemitom(BaixaSemitom(nota));
         }
 
-        private string AumentaTom(string nota)
+        private static string AumentaTom(string nota)
         {
             return AumentaSemitom(AumentaSemitom(nota));
         }
