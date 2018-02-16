@@ -3,4 +3,4 @@
 A simple cavaquinho's chord creator.
 
 # Working 
-Now, it works with natural and 7's chords (i.e. C, D#, E7, F#7, ...)
+So far, it works with natural, 6's , 7's and 9's chords (i.e. C, D#, E9, F#6, ...)
