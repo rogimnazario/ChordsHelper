@@ -17,6 +17,8 @@ namespace ChordsHelper
         /// <returns></returns>
         public List<string> GirarEscala(string notaInicial)
         {
+            notaInicial = notaInicial.ToUpper();
+
             var index = Notas.IndexOf(notaInicial);
             var novaEscala = new List<string>();
 
@@ -35,9 +37,9 @@ namespace ChordsHelper
             return novaEscala;
         }
 
-        public abstract string ExibeAcorde(string notas)
-        {
-            throw new NotImplementedException("Use de uma classe derivada.");
-        }
+        public abstract string ExibeAcorde(string notas);
+
+        public abstract void Reinicializa();
+        
     }
 }

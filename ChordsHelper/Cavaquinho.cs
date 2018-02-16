@@ -8,21 +8,18 @@ namespace ChordsHelper
 {
     public class Cavaquinho : Instrumento
     {
-        public string Rezinha { get; set; }
-        public string Si { get; set; }
-        public string Sol { get; set; }
-        public string Rezona { get; set; }
+        public List<string> Cordas { get; set; }
+
+        public const int numCordas = 4;
 
         public Cavaquinho()
         {
             Reinicializa();
         }
 
-        private void Reinicializa()
+        public override void Reinicializa()
         {
-            Rezona = Rezinha = "D";
-            Si = "B";
-            Sol = "G";
+            Cordas = new List<string>() { "d", "G", "B", "D" };
         }
 
         private string intToCorda(int intCorda)
@@ -30,15 +27,15 @@ namespace ChordsHelper
             switch (intCorda)
             {
                 case 0:
-                    return "Rezinha";
+                    return "Rezona";
                 case 1:
                     return "Sol";
                 case 2:
                     return "Si";
                 case 3:
-                    return "Rezona";
+                    return "Rezinha";
                 default:
-                    return string.Empty;
+                    throw new Exception("Essa corda não existe no cavaquinho.");
             }
         }
 
@@ -46,18 +43,22 @@ namespace ChordsHelper
         {
             var arrNotas = notas.Split(',').ToList();
 
+            var dicTotal = new Dictionary<int, Tuple<int, string>>();
+
             Reinicializa();
 
-            var Cordas = new List<string>() { Rezinha, Sol, Si, Rezona };
             int index = 0;
             var retorno = string.Empty;
+
+            var cloneCordas = new List<string>();
+            cloneCordas.AddRange(Cordas);
             //indo de corda em corda pra montar o acorde.
 
             //1. rezinha
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < numCordas; i++)
             {
                 //pega a proxima corda
-                var indexCorda = (new Random(DateTime.Now.Millisecond)).Next(0, 4 - i);
+                var indexCorda = (new Random(DateTime.Now.Millisecond)).Next(0, Cordas.Count);
                 var proximaCorda = Cordas[indexCorda];
 
                 //exclui pra ela nao ser usada mais d uma vez
@@ -68,17 +69,25 @@ namespace ChordsHelper
 
                 if (arrNotas.Count > 0)
                 {
-                    while (Escala[index] != arrNotas[0])
-                        index++;
+                    var indexNota = (new Random(DateTime.Now.Millisecond)).Next(0, arrNotas.Count);
 
-                    arrNotas.Remove(arrNotas[0]);
+                    while (Escala[index] != arrNotas[indexNota])
+                        index++;                    
 
-                    retorno = (!string.IsNullOrEmpty(retorno) ? retorno + "\n" : string.Empty) + string.Format("Corda {0} : {1}", proximaCorda, index);
+                    arrNotas.Remove(arrNotas[indexNota]);
+
+                    //retorno = (!string.IsNullOrEmpty(retorno) ? retorno + "\n" : string.Empty) + string.Format("Corda {0} : {1}", proximaCorda, index);
+
+                    dicTotal.Add(cloneCordas.IndexOf(proximaCorda), new Tuple<int, string>(index, Escala[index]));
+                    
                 }
 
                 index = 0;
             }
 
+            foreach (var item in dicTotal.OrderBy(k => k.Key))
+                retorno = string.Join("\n", retorno, intToCorda(item.Key) + ": " + item.Value.Item1 + " ("+item.Value.Item2+")");                
+            
             return retorno;
         }
 

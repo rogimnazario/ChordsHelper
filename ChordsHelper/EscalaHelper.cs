@@ -119,10 +119,20 @@ namespace ChordsHelper
 
             //Sétima
             if (acorde.Contains("7"))
+            {
                 if (acorde.Contains("7+")) //Sétima maior
                     retorno += "," + escala[6];
                 else //Sétima menor
                     retorno += "," + BaixaSemitom(escala[6]);
+            }
+            else if (char.IsNumber(acorde.Last())) // acorde com 9, 6
+            {
+                var numero = Convert.ToInt32(acorde.Last().ToString());
+                if (numero > 7)
+                    numero = numero - 7;
+
+                retorno += "," + escala[numero - 1];
+            }  
 
             return retorno;
         }
