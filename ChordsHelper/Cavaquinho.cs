@@ -82,8 +82,6 @@ namespace ChordsHelper
 
                     arrNotas.Remove(arrNotas[indexNota]);
 
-                    //retorno = (!string.IsNullOrEmpty(retorno) ? retorno + "\n" : string.Empty) + string.Format("Corda {0} : {1}", proximaCorda, index);
-
                     dicTotal.Add(cloneCordas.IndexOf(proximaCorda), new Tuple<int, string>(index, Escala[index]));                    
                 }
 
@@ -92,7 +90,7 @@ namespace ChordsHelper
 
             //para o caso do cavaquinho, se o acorde tiver 3 notas (acorde natural), a corda d tem d ser igual a corda D.
             if (totalNotas < numCordas && Cordas.Any(a => a.ToUpper().Equals("D")))            
-                dicTotal.Add(cloneCordas.IndexOf(Cordas.First()), dicTotal[(dicTotal.ContainsKey(0)) ? 0 : 3]);                               
+                dicTotal.Add(cloneCordas.IndexOf(Cordas.First()), dicTotal[0] ?? dicTotal[3]);                               
 
             foreach (var item in dicTotal.OrderBy(k => k.Key))
                 retorno = string.Join("\n", retorno, intToCorda(item.Key) + ": " + item.Value.Item1 + " ("+item.Value.Item2+")");                
