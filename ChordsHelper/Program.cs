@@ -12,7 +12,7 @@ namespace ChordsHelper
         {
             ConsoleKeyInfo key = new ConsoleKeyInfo();
 
-            string acorde = "G9";
+            string acorde = "C7";
             string acordeMontado = EscalaHelper.MontarAcorde(acorde);
             Console.WriteLine("Montagem do acorde " + acorde + " (" + acordeMontado + ")" + Environment.NewLine);
 
