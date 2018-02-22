@@ -10,19 +10,21 @@ namespace ChordsHelper
     {
         static void Main(string[] args)
         {
-            ConsoleKeyInfo key = new ConsoleKeyInfo();
+            var acordeStr = Console.ReadLine().ToUpper();
+            string acordeMontado = EscalaHelper.MontarAcorde(acordeStr);
+            Console.WriteLine("Montagem do acorde " + acordeStr + " (" + acordeMontado + ")" + Environment.NewLine);
 
-            string acorde = "C7";
-            string acordeMontado = EscalaHelper.MontarAcorde(acorde);
-            Console.WriteLine("Montagem do acorde " + acorde + " (" + acordeMontado + ")" + Environment.NewLine);
+            var cvc = new Cavaquinho();
 
-            while (key.Key != ConsoleKey.End)
-            {
-                Instrumento cvc = new Cavaquinho();
-                Console.WriteLine(cvc.ExibeAcorde(acordeMontado));
+            while (!string.IsNullOrEmpty(acordeStr))
+            {                
+                var acorde = cvc.ExibeAcorde(acordeMontado, Enums.AlturaAcordes.Randomica);
 
-                key = Console.ReadKey();
-                Console.WriteLine("\n");
+                Console.WriteLine(acorde.ToString());
+
+                acordeStr = Console.ReadLine().ToUpper();
+                acordeMontado = EscalaHelper.MontarAcorde(acordeStr);
+                Console.WriteLine("Montagem do acorde " + acordeStr + " (" + acordeMontado + ")" + Environment.NewLine);
             }
         }
     }

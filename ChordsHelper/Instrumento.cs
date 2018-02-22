@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChordsHelper.Exibicao;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace ChordsHelper
             return novaEscala;
         }
 
-        public abstract string ExibeAcorde(string notas);
+        public abstract Acorde ExibeAcorde(string notas, ChordsHelper.Enums.AlturaAcordes alturaAcorde = Enums.AlturaAcordes.Randomica);
 
         public abstract void Reinicializa();
         

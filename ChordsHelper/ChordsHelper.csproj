@@ -51,7 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cavaquinho.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="EscalaHelper.cs" />
+    <Compile Include="Exibicao\Acorde.cs" />
+    <Compile Include="Exibicao\AcordeCavaquinho.cs" />
+    <Compile Include="Exibicao\Nota.cs" />
+    <Compile Include="Exibicao\NotaCavaquinho.cs" />
     <Compile Include="Instrumento.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
